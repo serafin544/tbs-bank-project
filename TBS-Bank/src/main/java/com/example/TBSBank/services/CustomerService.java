@@ -24,7 +24,7 @@ public class CustomerService {
     Optional<Customer> customer = Optional.empty();
     Optional<Account> account = accountRepository.findById(accountId);
     if(account.isPresent()){
-      customer = customerRepository.findById(account.get().getCustomerId());
+      customer = customerRepository.findById(account.get().getId());
 
       return customer;
     }
