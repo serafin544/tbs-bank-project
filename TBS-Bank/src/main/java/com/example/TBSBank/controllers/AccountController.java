@@ -3,6 +3,7 @@ package com.example.TBSBank.controllers;
 import com.example.TBSBank.checkers.ResponseStatus;
 import com.example.TBSBank.models.Account;
 import com.example.TBSBank.services.AccountService;
+import com.example.TBSBank.services.CustomerService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +38,6 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep, HttpStatus.NOT_FOUND);
         }
-
-
     }
 
     @GetMapping( value = "/accounts/{id}")
@@ -53,9 +52,6 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep,HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
     @GetMapping(value = "/customers/{id}/accounts")
