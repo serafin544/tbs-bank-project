@@ -1,6 +1,8 @@
 package com.example.TBSBank.services;
 
+import com.example.TBSBank.models.Account;
 import com.example.TBSBank.models.Deposit;
+import com.example.TBSBank.repository.AccountRepository;
 import com.example.TBSBank.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +43,4 @@ public class DepositService {
     public void deleteDeposit(Long depositId) {
         depository.deleteById(depositId);
     }
-}
 }
