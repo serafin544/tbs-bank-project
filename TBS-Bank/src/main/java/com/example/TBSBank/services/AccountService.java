@@ -1,5 +1,6 @@
 package com.example.TBSBank.services;
 
+import com.example.TBSBank.exceptions.ResourceNotFoundException;
 import com.example.TBSBank.models.Account;
 import com.example.TBSBank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,13 @@ public class AccountService {
 
         accountRepository.deleteById(accountId);
     }
+
+    //verify account
+  public void verifyAccountId(Long accountId, String message) throws ResourceNotFoundException {
+    Optional<Account> account = getAccountById(accountId);
+
+    if(!account.isPresent())
+      throw new ResourceNotFoundException(message);
+  }
 
 }
