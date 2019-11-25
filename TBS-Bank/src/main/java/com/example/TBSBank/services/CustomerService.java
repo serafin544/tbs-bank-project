@@ -35,7 +35,7 @@ public class CustomerService {
     return customerRepository.findAll();
   }
 
-  public Optional<Customer> getCustomerById(Long customerId){
+  public Long getCustomerById(Long customerId){
     return customerRepository.findById(customerId);
   }
 

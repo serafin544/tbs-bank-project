@@ -3,6 +3,7 @@ package com.example.TBSBank.controllers;
 import com.example.TBSBank.checkers.ResponseStatus;
 import com.example.TBSBank.models.Account;
 import com.example.TBSBank.services.AccountService;
+import com.example.TBSBank.services.CustomerService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -61,11 +62,11 @@ public class AccountController {
     @GetMapping(value = "/customers/{id}/accounts")
     public ResponseEntity<?> getAccountForCustomer(@PathVariable Long id){
 
-        List<Account> CustomerAccts =  accountService.GetAllCustomerAccounts(customerService.getCustomerById(id));
+        List<Account> CustomerAccounts =  accountService.getAllCustomerAccounts(customerService.getCustomerById(id));
         ResponseStatus response = new ResponseStatus();
-        if(!CustomerAccts.isEmpty()){
+        if(!CustomerAccounts.isEmpty()){
             response.setCode(HttpStatus.OK.value());
-            response.setData(CustomerAccts);
+            response.setData(CustomerAccounts);
             return new ResponseEntity<>(response,HttpStatus.OK);
         }else{
             response.setCode(HttpStatus.NOT_FOUND.value());
