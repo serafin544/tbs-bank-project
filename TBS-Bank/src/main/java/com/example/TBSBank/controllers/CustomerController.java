@@ -3,7 +3,6 @@ package com.example.TBSBank.controllers;
 import com.example.TBSBank.checkers.ResponseStatus;
 import com.example.TBSBank.models.Customer;
 import com.example.TBSBank.services.CustomerService;
-import com.example.TBSBank.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
