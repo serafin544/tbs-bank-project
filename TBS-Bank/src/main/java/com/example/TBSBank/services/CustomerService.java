@@ -31,7 +31,7 @@ public class CustomerService {
     return customer;
   }
 
-  public List<Customer> getAllCustomers() {
+  public Iterable<Customer> getAllCustomers() {
     return customerRepository.findAll();
   }
 

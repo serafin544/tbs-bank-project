@@ -29,6 +29,7 @@ public class AccountService {
     public Optional<Account> getAccountById(Long id){
         return accountRepository.findById(id);
     }
+
 //create account for customer
     public Account createAccountForCustomer(Long customerId, Account account) {
         account.setCustomer(customerId);
