@@ -62,7 +62,8 @@ public class AccountController {
     @GetMapping(value = "/customers/{id}/accounts")
     public ResponseEntity<?> getAccountForCustomer(@PathVariable Long id){
 
-        List<Account> CustomerAccounts =  accountService.getAllCustomerAccounts(customerService.getCustomerById(id));
+
+        Optional<Account> CustomerAccts =  accountService.getAccountById(id);
         ResponseStatus response = new ResponseStatus();
         if(!CustomerAccounts.isEmpty()){
             response.setCode(HttpStatus.OK.value());
