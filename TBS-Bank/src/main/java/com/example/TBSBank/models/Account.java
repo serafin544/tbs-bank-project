@@ -12,14 +12,14 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-    private Customer customer;
+    private Long customerId;
     private String TODO;
 // id ,type, nickname, rewards, balance, customerId;
 
-    public Account(Long id,String nickname,Integer rewards,Double balance, Customer customer)
+    public Account(Long id,String nickname,Integer rewards,Double balance, Long customerId)
     {
         this.balance = balance;
-        this.customer = customer;
+        this.customerId = customerId;
         this.nickname = nickname;
         this.rewards = rewards;
         this.id = id;
@@ -45,12 +45,12 @@ public class Account {
         return balance;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Long customer) {
-        this.customer = customer;
+    public void setCustomer(Long customerId) {
+        this.customerId = customerId;
     }
 
     public void setBalance(Double balance) {
@@ -77,7 +77,7 @@ public class Account {
                 ", nickname='" + nickname + '\'' +
                 ", rewards=" + rewards +
                 ", balance=" + balance +
-                ", customer=" + customer +
+                ", customer=" + customerId +
                 ", TODO='" + TODO + '\'' +
                 '}';
     }

@@ -5,7 +5,6 @@ import com.example.TBSBank.models.Deposit;
 import com.example.TBSBank.repository.AccountRepository;
 import com.example.TBSBank.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,4 +44,3 @@ public class DepositService {
         depository.deleteById(depositId);
     }
 }
-
