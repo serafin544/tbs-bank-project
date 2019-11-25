@@ -16,8 +16,6 @@ import java.util.Optional;
 public class DepositService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Autowired
     private DepositRepository depository;
     @Autowired
     private AccountRepository accountRepository;
