@@ -13,8 +13,6 @@ public class Account {
     private Integer rewards;
     private Double balance;
     private Long customerId;
-    private String TODO;
-// id ,type, nickname, rewards, balance, customerId;
 
     public Account() {
     }
@@ -81,7 +79,6 @@ public class Account {
                 ", rewards=" + rewards +
                 ", balance=" + balance +
                 ", customer=" + customerId +
-                ", TODO='" + TODO + '\'' +
                 '}';
     }
 }
