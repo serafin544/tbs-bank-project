@@ -38,8 +38,6 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep, HttpStatus.NOT_FOUND);
         }
-
-
     }
 
     @GetMapping( value = "/accounts/{id}")
@@ -54,9 +52,6 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep,HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
     @GetMapping(value = "/customers/{id}/accounts")
@@ -65,7 +60,7 @@ public class AccountController {
 
         Optional<Account> CustomerAccts =  accountService.getAccountById(id);
         ResponseStatus response = new ResponseStatus();
-        if(!CustomerAccounts.isEmpty()){
+        if(CustomerAccts.isPresent()){
             response.setCode(HttpStatus.OK.value());
             response.setData(CustomerAccounts);
             return new ResponseEntity<>(response,HttpStatus.OK);
