@@ -40,7 +40,7 @@ public class CustomerController {
 
   @GetMapping("/customers")
   public ResponseEntity<?> getAllCustomers(){
-    List<Customer> customers = customerService.getAllCustomers();
+    Iterable<Customer> customers = customerService.getAllCustomers();
     ResponseStatus response = new ResponseStatus();
     if(customers == null) {
       response.setCode(HttpStatus.NOT_FOUND.value());
