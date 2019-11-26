@@ -1,10 +1,11 @@
 package com.example.TBSBank.models;
 
+import com.example.TBSBank.enums.WithMedium;
+import com.example.TBSBank.enums.WithStatus;
+import com.example.TBSBank.enums.WithType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Withdraw {
@@ -13,13 +14,30 @@ public class Withdraw {
     @GeneratedValue
     @JsonProperty("id")
     private Long id;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private WithStatus status;
+    @Enumerated(EnumType.STRING)
+    private WithMedium medium;
+    @Enumerated(EnumType.STRING)
+    private WithType type;
     private String transaction_date;
-    private String status;
     private Long payerId;
-    private String medium;
     private Double amount;
     private String description;
+
+    public Withdraw() {
+    }
+
+    public Withdraw(Long id, WithStatus status, WithMedium medium, WithType type, String transaction_date, Long payerId, Double amount, String description) {
+        this.id = id;
+        this.status = status;
+        this.medium = medium;
+        this.type = type;
+        this.transaction_date = transaction_date;
+        this.payerId = payerId;
+        this.amount = amount;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -29,11 +47,27 @@ public class Withdraw {
         this.id = id;
     }
 
-    public String getType() {
+    public WithStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WithStatus status) {
+        this.status = status;
+    }
+
+    public WithMedium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(WithMedium medium) {
+        this.medium = medium;
+    }
+
+    public WithType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(WithType type) {
         this.type = type;
     }
 
@@ -45,28 +79,12 @@ public class Withdraw {
         this.transaction_date = transaction_date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Long getPayerId() {
         return payerId;
     }
 
     public void setPayerId(Long payerId) {
         this.payerId = payerId;
-    }
-
-    public String getMedium() {
-        return medium;
-    }
-
-    public void setMedium(String medium) {
-        this.medium = medium;
     }
 
     public Double getAmount() {
@@ -85,17 +103,17 @@ public class Withdraw {
         this.description = description;
     }
 
-    public String getTODO() {
-        return TODO;
+    @Override
+    public String toString() {
+        return "Withdraw{" +
+                "id=" + id +
+                ", status=" + status +
+                ", medium=" + medium +
+                ", type=" + type +
+                ", transaction_date='" + transaction_date + '\'' +
+                ", payerId=" + payerId +
+                ", amount=" + amount +
+                ", description='" + description + '\'' +
+                '}';
     }
-
-    public void setTODO(String TODO) {
-        this.TODO = TODO;
-    }
-
-    private String TODO;
-      // id, type, transactionDate, status, payerId , medium , amount ,description
-
-
-
 }
