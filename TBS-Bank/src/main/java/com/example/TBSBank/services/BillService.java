@@ -1,11 +1,15 @@
 package com.example.TBSBank.services;
 
+import com.example.TBSBank.models.Account;
 import com.example.TBSBank.models.Bill;
+import com.example.TBSBank.models.Customer;
 import com.example.TBSBank.repository.AccountRepository;
 import com.example.TBSBank.repository.BillRepository;
+import com.example.TBSBank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +19,11 @@ public class BillService {
     @Autowired
     private BillRepository billRepository;
     @Autowired
-    private AccountRepository accountRepository;
+      private AccountRepository accountRepository;
     @Autowired
-    private BillService billService;
+      private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
     public List<Bill> getAllBillsForAccount(Long accountId) {
         return billRepository.findAllByAccountId(accountId);
@@ -28,7 +34,9 @@ public class BillService {
     }
 
     public List<Bill> getAllBillsForCustomer(Long customerId) {
-        return billRepository.findAllByCustomerId(customerId);
+      List<Account> accounts = accountRepository.findAllAccountsByCustomerId(customerId);
+      Account a = accounts.get(0);
+      return billRepository.findAllByAccountId(a.getId());
     }
 
     public Bill createBill(Bill bill, Long accountId) {
