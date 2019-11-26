@@ -15,7 +15,7 @@ public class WithdrawService {
 
 
     public List<Withdraw> getAllWithdrawsForAccount(Long accountId) {
-        return withdrawRepository.findAllByAccountId(accountId);
+        return withdrawRepository.findAllByPayerId(accountId);
     }
 
     public Optional<Withdraw> getWithdrawById(Long id) {

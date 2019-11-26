@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface BillRepository extends CrudRepository<Bill, Long>{
     List<Bill> findAllByAccountId(Long accountId);
-    List<Bill> findAllByCustomerId(Long customerId);
 }
