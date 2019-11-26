@@ -3,11 +3,13 @@ package com.example.TBSBank.services;
 import com.example.TBSBank.models.Withdraw;
 import com.example.TBSBank.repository.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class WithdrawService {
 
     @Autowired

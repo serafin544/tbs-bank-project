@@ -20,6 +20,9 @@ public class Bill {
     private Double paymentAmount;
     private String accountId;
 
+    public Bill() {
+    }
+
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, String accountId) {
         this.id = id;
         this.status = status;

@@ -16,7 +16,10 @@ public class Account {
     private String TODO;
 // id ,type, nickname, rewards, balance, customerId;
 
-    public Account(Long id,String nickname,Integer rewards,Double balance, Long customerId)
+    public Account() {
+    }
+
+    public Account(Long id, String nickname, Integer rewards, Double balance, Long customerId)
     {
         this.balance = balance;
         this.customerId = customerId;
