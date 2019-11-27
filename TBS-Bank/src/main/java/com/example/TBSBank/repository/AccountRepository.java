@@ -5,7 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface AccountRepository extends CrudRepository<Account,Long> {
-    List<Account> findAllAccountsByCustomerId(Long customerId);
+public interface AccountRepository extends CrudRepository<Account, Long>  {
+
+    Account getAccountById(Long accountId);
+    List<Account> findAllAccountsByCustomerID(Long customerId);
+
 
 }
