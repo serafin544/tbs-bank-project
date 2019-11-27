@@ -1,14 +1,16 @@
 package com.example.TBSBank.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.TBSBank.enums.Type;
 
+import javax.persistence.*;
 
+@Entity
 public class Account {
-
-
+    @Id
+    @GeneratedValue
     private Long accountId;
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String nickname;
     private Integer rewards;
     private Double balance;
@@ -66,7 +68,7 @@ public class Account {
         this.nickname = nickname;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setId(Long accountId) {
         this.accountId = accountId;
 
     }

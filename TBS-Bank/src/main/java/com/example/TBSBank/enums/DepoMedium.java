@@ -1,6 +1,6 @@
 package com.example.TBSBank.enums;
 
-public enum Medium {
+public enum DepoMedium {
 
     Balance,
     Rewards
