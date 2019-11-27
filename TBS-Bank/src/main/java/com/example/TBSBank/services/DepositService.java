@@ -35,7 +35,9 @@ public class DepositService {
 
             return d;
         }
-        return listOfDeposits;
+        else
+            return null;
+
     }
 
     public Optional<Deposit> getDepositById(Long depositId) {
@@ -48,20 +50,48 @@ public class DepositService {
         return depositOptional;
     }
 
-    public Deposit addDeposit(Deposit deposit) {
+    public Deposit addDeposit(Deposit deposit, Long accountId) {
 
         //depository.save(deposit);
               //  String query = "INSERT INTO DEPOSIT ";
             // int update - template.update(query,deposit);
-             return depository.save(deposit);
+             if(accountRepository.findById(accountId).isPresent()){
+                 String query = "INSERT INTO DEPOSIT VALUES(?,?,?,?,?,?,?,?,?)";
+                 template.update(query,deposit.getId(),deposit.getStatus(),deposit.getMedium(),deposit.getType(),
+                         deposit.getTransaction_date(),deposit.getPayeeId(),deposit.getAmount(),
+                         deposit.getDescription(),deposit.getAccountId());
+
+                 return deposit;
+
+             }
+             return null;
 
        }
 
-    public Deposit updateDeposit(Deposit deposit) {
-        return depository.save(deposit);
+    public Deposit updateDeposit(Deposit deposit, Long accountId) {
+        if(accountRepository.findById(accountId).isPresent()){
+            String query = "UPDATE DEPOSIT " +
+                    "SET id ='"  + deposit.getId() + "'," +
+                    "status ='" + deposit.getStatus() + "'," +
+                    "medium ='" + deposit.getMedium() + "'," +
+                    "type ='" + deposit.getType() + "'," +
+                    "transaction_date ='" + deposit.getTransaction_date() + "'," +
+                    "payeeId ='" + deposit.getPayeeId() + "'," +
+                    "amount ='" + deposit.getAmount() + "'," +
+                    "description ='" + deposit.getDescription() + "'," +
+                    " WHERE id = ?";
+            template.update(query, accountId);
+            return deposit;
+        }
+        return null;
     }
 
     public void deleteDeposit(Long depositId) {
-        depository.deleteById(depositId);
+
+
+        String sql = "DELETE FROM DEPOSIT WHERE ID=?";
+        template.update(sql,depositId);
+
+        /*depository.deleteById(depositId);*/
     }
 }
