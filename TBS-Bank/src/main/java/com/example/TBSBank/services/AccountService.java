@@ -4,6 +4,7 @@ import com.example.TBSBank.exceptions.ResourceNotFoundException;
 import com.example.TBSBank.models.Account;
 import com.example.TBSBank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     AccountRepository accountRepository;
@@ -21,7 +25,8 @@ public class AccountService {
 
 //get all customer accounts
     public List<Account> getAllCustomerAccounts(Long customerID) {
-        return accountRepository.findAllAccountsByCustomerId(customerID);
+
+        return accountRepository.findAllAccountsByCustomerID(customerID);
     }
 
 //get account by id
@@ -39,7 +44,7 @@ public class AccountService {
 
 //update customer
     public Account updateAccount(Account account, Long accountId) {
-        account.setId(accountId);
+        account.setAccountId(accountId);
         return accountRepository.save(account);
     }
 

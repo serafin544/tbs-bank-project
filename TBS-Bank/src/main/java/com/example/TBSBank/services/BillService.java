@@ -34,9 +34,9 @@ public class BillService {
     }
 
     public List<Bill> getAllBillsForCustomer(Long customerId) {
-      List<Account> accounts = accountRepository.findAllAccountsByCustomerId(customerId);
+      List<Account> accounts = accountRepository.findAllAccountsByCustomerID(customerId);
       Account a = accounts.get(0);
-      return billRepository.findAllByAccountId(a.getId());
+      return billRepository.findAllByAccountId(a.getAccountId());
     }
 
     public Bill createBill(Bill bill, Long accountId) {
