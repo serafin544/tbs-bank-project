@@ -20,7 +20,10 @@ public class Customer {
   @JoinColumn(name = "CUSTOMER_ID")
   private Set<Address> address;
 
-  public Customer(){
+  public Customer() {
+  }
+
+  public Customer(long id, String first_name, String last_name, Object address){
 
   }
 
