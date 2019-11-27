@@ -17,6 +17,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 public class AccountController {
 
@@ -43,10 +44,10 @@ public class AccountController {
     @GetMapping( value = "/accounts/{id}")
     public ResponseEntity<?> getAccountById(@PathVariable Long id){
         ResponseStatus rep = new ResponseStatus();
-        Optional<Account> acctt = accountService.getAccountById(id);
-        if(acctt.isPresent()){
+        Optional<Account> account = Optional.ofNullable(accountService.getAccountById(id));
+        if(account.isPresent()){
             rep.setCode(HttpStatus.OK.value());
-            rep.setData(acctt);
+            rep.setData(account);
             return new ResponseEntity<>(rep, HttpStatus.OK);
         }else{
             rep.setCode(HttpStatus.NOT_FOUND.value());
@@ -56,11 +57,15 @@ public class AccountController {
 
     @GetMapping(value = "/customers/{id}/accounts")
     public ResponseEntity<?> getAccountForCustomer(@PathVariable Long id){
-        Optional<Account> CustomerAccts =  accountService.getAccountById(id);
+
+
+
+        Optional<Account> CustomerAccounts = Optional.ofNullable(accountService.getAccountById(id));
+
         ResponseStatus response = new ResponseStatus();
-        if(CustomerAccts.isPresent()){
+        if(CustomerAccounts.isPresent()){
             response.setCode(HttpStatus.OK.value());
-            response.setData(CustomerAccts);
+            response.setData(CustomerAccounts);
             return new ResponseEntity<>(response,HttpStatus.OK);
         }else{
             response.setCode(HttpStatus.NOT_FOUND.value());
@@ -69,15 +74,17 @@ public class AccountController {
     }
 
     @PostMapping( value = "/customers/{id}/accounts")
-    public ResponseEntity<?> addAccount(@RequestBody Account account, @PathVariable Long id)
+    public ResponseEntity<?> addAccount(@RequestBody Account account, @PathVariable Long id, @PathVariable String nickName,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customerId)
     {
-        Account a = accountService.createAccountForCustomer(id, account);
-        if(a != null){
+       int a = accountService.addAccount(id,account,nickName,rewards,balance,customerId);
+        if(a != 1){
             HttpHeaders responseHeaders = new HttpHeaders();
             URI newAcctUri = ServletUriComponentsBuilder
                     .fromCurrentRequestUri()
                     .path("/{id}")
+
                     .buildAndExpand(a.getAccountId())
+
                     .toUri();
             responseHeaders.setLocation(newAcctUri);
             return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
@@ -88,9 +95,9 @@ public class AccountController {
     }
 
     @PutMapping( value = "/accounts/{id}")
-    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable Long accountId) {
+    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable Long accountid,@PathVariable String nickname,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customer_id) {
       ResponseStatus responseStatus = new ResponseStatus();
-        accountService.updateAccount(account,accountId);
+        accountService.updateAccount(account,accountid,nickname,rewards,balance,customer_id);
       return new ResponseEntity<>(HttpStatus.CREATED,HttpStatus.OK);
     }
 

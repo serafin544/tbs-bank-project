@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 public class Account {
+
     @Id
     @GeneratedValue
     private Long accountId;
@@ -19,17 +20,21 @@ public class Account {
     public Account() {
     }
 
+
     public Account(Long accountId, String nickname, Integer rewards, Double balance, Long customerId)
+
     {
         this.balance = balance;
         this.customerId = customerId;
         this.nickname = nickname;
         this.rewards = rewards;
+
+        this.id = id;
+        this.type =type;
+
         this.accountId = accountId;
     }
-    public enum type {
 
-        Savings,Checking,Credit
     }
 
     public Long getAccountId() {
@@ -50,6 +55,14 @@ public class Account {
 
     public Long getCustomerId() {
         return customerId;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setCustomer(Long customerId) {
