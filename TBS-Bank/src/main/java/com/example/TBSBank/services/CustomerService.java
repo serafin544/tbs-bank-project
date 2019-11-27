@@ -60,20 +60,27 @@ public class CustomerService {
 
   public Customer createNewCustomer(Customer customer){
       String query = "INSERT INTO CUSTOMEER VALUES(?,?,?,?)";
-      int  updater = template.update(query,customer);
-    return customerRepository.save(customer);
+      template.update(query,customer.getId(),customer.getFirstName(),customer.getLastName(),customer.getAddress());
+    return customer;
   }
 
   public Customer updateCustomer(Long customerId, Customer customer){
-    customer.setId(customerId);
-    String query = "UPDATE CUSTOMER SET id=? , first_name=? , last_name=? address=?";
-    template.execute(query);
-    return customerRepository.save(customer);
+    if(customerRepository.findById(customerId).isPresent()){
+      String query = "UPDATE CUSTOMER " +
+              "SET first_name ='" + customer.getFirstName() + "'," +
+              "last_name ='" + customer.getLastName() + "'," +
+              " address ='" + customer.getAddress() + "'," +
+              " WHERE id = ?";
+      template.update(query, customerId);
+      return customer;
+    }
+    return null;
+
   }
 
   public void deleteCustomer(Long customerId) {
     String sql = "DELETE FROM CUSTOMER WHERE ID=?";
-    template.execute(sql);
+    template.update(sql,customerId);
 
     //customerRepository.deleteById(customerId);
   }

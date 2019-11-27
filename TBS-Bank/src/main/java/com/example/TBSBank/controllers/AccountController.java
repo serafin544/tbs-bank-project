@@ -77,7 +77,7 @@ public class AccountController {
             URI newAcctUri = ServletUriComponentsBuilder
                     .fromCurrentRequestUri()
                     .path("/{id}")
-                    .buildAndExpand(a.getId())
+                    .buildAndExpand(a.getAccountId())
                     .toUri();
             responseHeaders.setLocation(newAcctUri);
             return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
