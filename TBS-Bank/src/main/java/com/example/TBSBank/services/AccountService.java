@@ -4,7 +4,7 @@ import com.example.TBSBank.exceptions.ResourceNotFoundException;
 import com.example.TBSBank.models.Account;
 import com.example.TBSBank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,9 @@ import java.util.Optional;
 public class AccountService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     AccountRepository accountRepository;
@@ -37,6 +40,12 @@ public class AccountService {
         Account acc = jdbcTemplate.queryForObject(query,new Object[]{accountId},
                 new BeanPropertyRowMapper<>(Account.class));
         return acc;
+
+
+//get all customer accounts
+    public List<Account> getAllCustomerAccounts(Long customerID) {
+
+        return accountRepository.findAllAccountsByCustomerID(customerID);
 
     }
 
@@ -62,11 +71,13 @@ public class AccountService {
                     "rewards ='" + account.getRewards() + "'," +
                     "type ='" + account.getType() + "'," +
 
+
                     "WHERE id = ?";
             jdbcTemplate.update(query, id);
             return account;
         }
         return account;
+
     }
 //    //update account
 //    public void updateAccount(@Valid Account account, Long id, String nickname, Integer rewards, Double balance, Long customer_id){

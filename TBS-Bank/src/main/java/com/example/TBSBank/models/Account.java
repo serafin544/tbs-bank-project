@@ -9,7 +9,7 @@ public class Account {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long accountId;
     @Enumerated(EnumType.STRING)
     private Type type;
     private String nickname;
@@ -20,18 +20,25 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String nickname, Integer rewards, Double balance, Long customerId,Type type)
+
+    public Account(Long accountId, String nickname, Integer rewards, Double balance, Long customerId)
+
     {
         this.balance = balance;
         this.customerId = customerId;
         this.nickname = nickname;
         this.rewards = rewards;
+
         this.id = id;
         this.type =type;
+
+        this.accountId = accountId;
     }
 
-    public Long getId() {
-        return id;
+    }
+
+    public Long getAccountId() {
+        return accountId;
     }
 
     public String getNickname() {
@@ -74,15 +81,15 @@ public class Account {
         this.nickname = nickname;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
 
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + id + '\'' +
+                "id='" + accountId + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", rewards=" + rewards +
                 ", balance=" + balance +
