@@ -109,8 +109,8 @@ public class Bill {
         this.accountId = accountId;
     }
 
-    public BillStatus getStatus() {
-        return status;
+    public String getStatus() {
+        return status.toString();
     }
 
     public void setStatus(BillStatus status) {
