@@ -93,9 +93,9 @@ public class AccountController {
     }
 
     @PutMapping( value = "/accounts/{id}")
-    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable Long accountId,@PathVariable String nickName,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customerId) {
+    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable Long accountid,@PathVariable String nickname,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customer_id) {
       ResponseStatus responseStatus = new ResponseStatus();
-        accountService.updateAccount(account,accountId,nickName,rewards,balance,customerId);
+        accountService.updateAccount(account,accountid,nickname,rewards,balance,customer_id);
       return new ResponseEntity<>(HttpStatus.CREATED,HttpStatus.OK);
     }
 

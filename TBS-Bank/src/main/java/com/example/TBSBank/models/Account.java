@@ -20,17 +20,14 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String nickname, Integer rewards, Double balance, Long customerId)
+    public Account(Long id, String nickname, Integer rewards, Double balance, Long customerId,Type type)
     {
         this.balance = balance;
         this.customerId = customerId;
         this.nickname = nickname;
         this.rewards = rewards;
         this.id = id;
-    }
-    public enum type {
-
-        Savings,Checking,Credit
+        this.type =type;
     }
 
     public Long getId() {
@@ -51,6 +48,14 @@ public class Account {
 
     public Long getCustomerId() {
         return customerId;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setCustomer(Long customerId) {

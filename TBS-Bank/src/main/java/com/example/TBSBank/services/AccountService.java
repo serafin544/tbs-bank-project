@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +22,12 @@ public class AccountService {
     AccountRepository accountRepository;
     //get all accounts
     public Iterable<Account> getAllAccounts(Account account) {
-        List<Account> acc = jdbcTemplate.query("id,nickName,rewards,balance,customer_id from account",(result,rowNum)-> new Account(result.getLong("accountId")
+        List<Account> acc;
+        acc = jdbcTemplate.query("select id, nickName, rewards, balance, customer_id from account",(result,rowNum)-> new Account(result.getLong(account_id)
                 ,result.getString("nickName")
                 ,result.getInt("rewards")
                 ,result.getDouble("balance")
-                ,result.getLong("customerId"))
+                ,result.getLong("customer_id"))
         );
         return acc;
     }
@@ -51,23 +50,40 @@ public class AccountService {
         return acc;
 
     }
-    //update account
-    public Account updateAccount(@Valid Account account, Long id, String nickName, Integer rewards, Double balance, Long customerId){
-        String query = "SELECT * FOR ACCOUNT WHERE ID = ?";
-        Account acc = jdbcTemplate.queryForObject(query,new Object[]{id,nickName,rewards,balance,customerId},
-                new BeanPropertyRowMapper<>(Account.class));
-        return account;
+    public Account updateAccount(Long id,Account account) {
+        if (accountRepository.findById(id).isPresent()) {
+            String query = "UPDATE account " +
+                    "SET account_id ='" + account.getId() +
+"'," +
+                    "balance ='" + account.getBalance() +
+"'," +
+                    "customer_id='" + account.getCustomerId() + "'," +
+                    "nickname ='" + account.getNickname() + "'," +
+                    "rewards ='" + account.getRewards() + "'," +
+                    "type ='" + account.getType() + "'," +
 
+                    "WHERE id = ?";
+            jdbcTemplate.update(query, id);
+            return account;
+        }
+        return account;
     }
+//    //update account
+//    public void updateAccount(@Valid Account account, Long id, String nickname, Integer rewards, Double balance, Long customer_id){
+//        String query = "UPDATE * FOR ACCOUNT WHERE ID = ?";
+//        Account acc = jdbcTemplate.queryForObject(query,new Object[]{id,nickname,rewards,balance,customer_id},
+//                new BeanPropertyRowMapper<>(Account.class));
+
+
     //add account
-    public int addAccount(Long id, Account account, String nickName, Integer rewards, Double balance, Long customerId){
+    public int addAccount(Long id, Account account, String nickName, Integer rewards, Double balance, Long customer_id){
         String query = "INSERT INTO ACCOUNT VALUES(?,?,?)";
-        return jdbcTemplate.update(query,id,balance,customerId,rewards,nickName);
+        return jdbcTemplate.update(query,id,balance,customer_id,rewards,nickName);
     }
     //delete account
-    public int deleteAccount(Long id){
+    public void deleteAccount(Long id){
         String query = "DELETE FROM ACCOUNT WHERE ID = ?";
-        return jdbcTemplate.update(query,id);
+        jdbcTemplate.update(query, id);
     }
 ////verify account
 //    public Account verifyAccountId(Long accountId, String s){
