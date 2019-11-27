@@ -34,10 +34,10 @@ public class BillService {
     }
 
     public List<Bill> getAllBillsForCustomer(Long customerId) {
-        List<Account> accounts = accountRepository.findAllAccountsByCustomerId(customerId);
+        List<Account> accounts = accountRepository.findAllAccountsByCustomerID(customerId);
         Account a = accounts.get(0);
         String query = "SELECT * FROM bill WHERE account_id=?";
-        return template.query(query, new Object[]{a.getId()}, new BeanPropertyRowMapper<>(Bill.class));
+        return template.query(query, new Object[]{a.getAccountId()}, new BeanPropertyRowMapper<>(Bill.class));
     }
 
     public Bill createBill(Bill bill, Long accountId) {
