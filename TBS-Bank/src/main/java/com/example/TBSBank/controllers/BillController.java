@@ -18,7 +18,7 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<?> getAllBillsForAcc(@PathVariable Long accountId, @RequestBody Bill bill) {
+    public ResponseEntity<?> getAllBillsForAcc(@PathVariable Long accountId) {
         ResponseStatus response = new ResponseStatus();
         List<Bill> bills = billService.getAllBillsForAccount(accountId);
         if(bills == null) {
@@ -35,8 +35,8 @@ public class BillController {
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillById(@PathVariable("billId") Long id) {
         ResponseStatus response = new ResponseStatus();
-        Optional<Bill> b = billService.getBillById(id);
-        if(!b.isPresent()) {
+        Bill b = billService.getBillById(id);
+        if(b == null) {
             response.setCode(HttpStatus.NOT_FOUND.value());
             response.setMessage("error fetching bill with id " + id);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -97,7 +97,7 @@ public class BillController {
     @DeleteMapping("/bills/{billId}")
     public ResponseEntity<?> deleteBill(@PathVariable("billId") Long id) {
         ResponseStatus response = new ResponseStatus();
-        if(!billService.getBillById(id).isPresent()) {
+        if(billService.getBillById(id) == null) {
             response.setCode(HttpStatus.NOT_FOUND.value());
             response.setMessage("This id does not exist in bills");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
