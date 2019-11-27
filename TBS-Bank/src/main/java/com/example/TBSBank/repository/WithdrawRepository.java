@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface WithdrawRepository extends CrudRepository<Withdraw, Long> {
     List<Withdraw> findAllByPayerId(Long accountId);
-
-    List<Withdraw> findAllByAccountId(Long accountId);
 }

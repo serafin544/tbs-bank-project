@@ -44,7 +44,4 @@ public class DepositService {
         depository.deleteById(depositId);
     }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> c1d30136437489f25d0261ed9217d03f5299d358

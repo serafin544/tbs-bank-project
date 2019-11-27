@@ -1,22 +1,26 @@
 package com.example.TBSBank.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.TBSBank.enums.Type;
+
+import javax.persistence.*;
 
 @Entity
 public class Account {
+
     @Id
     @GeneratedValue
     private Long id;
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String nickname;
     private Integer rewards;
     private Double balance;
     private Long customerId;
-    private String TODO;
-// id ,type, nickname, rewards, balance, customerId;
 
-    public Account(Long id,String nickname,Integer rewards,Double balance, Long customerId)
+    public Account() {
+    }
+
+    public Account(Long id, String nickname, Integer rewards, Double balance, Long customerId)
     {
         this.balance = balance;
         this.customerId = customerId;
@@ -78,7 +82,6 @@ public class Account {
                 ", rewards=" + rewards +
                 ", balance=" + balance +
                 ", customer=" + customerId +
-                ", TODO='" + TODO + '\'' +
                 '}';
     }
 }

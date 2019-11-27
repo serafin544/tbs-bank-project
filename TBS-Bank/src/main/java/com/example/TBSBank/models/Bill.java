@@ -1,8 +1,8 @@
 package com.example.TBSBank.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.TBSBank.enums.BillStatus;
+
+import javax.persistence.*;
 
 @Entity
 public class Bill {
@@ -10,7 +10,8 @@ public class Bill {
     @Id
     @GeneratedValue
     private Long id;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BillStatus status;
     private String payee;
     private String nickname;
     private String creationDate;
@@ -20,9 +21,11 @@ public class Bill {
     private Double paymentAmount;
     private String accountId;
 
-    public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, String accountId) {
+    public Bill() {
+    }
+
+    public Bill(Long id, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, String accountId, BillStatus status) {
         this.id = id;
-        this.status = status;
         this.payee = payee;
         this.nickname = nickname;
         this.creationDate = creationDate;
@@ -31,6 +34,7 @@ public class Bill {
         this.upcomingPaymentDate = upcomingPaymentDate;
         this.paymentAmount = paymentAmount;
         this.accountId = accountId;
+        this.status = status;
     }
 
     public Long getId() {
@@ -39,14 +43,6 @@ public class Bill {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getPayee() {
@@ -113,19 +109,27 @@ public class Bill {
         this.accountId = accountId;
     }
 
+    public BillStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BillStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
                 "id=" + id +
-                ", status='" + status + '\'' +
                 ", payee='" + payee + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", paymentDate='" + paymentDate + '\'' +
                 ", recurringDate=" + recurringDate +
-                ", upcomingPaymentDte='" + upcomingPaymentDate + '\'' +
+                ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
                 ", paymentAmount=" + paymentAmount +
                 ", accountId='" + accountId + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

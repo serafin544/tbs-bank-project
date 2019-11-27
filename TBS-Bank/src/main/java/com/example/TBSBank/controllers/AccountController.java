@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 public class AccountController {
+
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     AccountService accountService;
@@ -38,8 +41,6 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep, HttpStatus.NOT_FOUND);
         }
-
-
     }
 
     @GetMapping( value = "/accounts/{id}")
@@ -54,21 +55,17 @@ public class AccountController {
             rep.setCode(HttpStatus.NOT_FOUND.value());
             return new ResponseEntity<>(rep,HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
     @GetMapping(value = "/customers/{id}/accounts")
     public ResponseEntity<?> getAccountForCustomer(@PathVariable Long id){
 
-<<<<<<< HEAD
-        List<Account> CustomerAccounts =  accountService.getAllCustomerAccounts(customerService.getCustomerById(id));
-=======
-        Optional<Account> CustomerAccts =  accountService.getAccountById(id);
->>>>>>> c1d30136437489f25d0261ed9217d03f5299d358
+
+
+        Optional<Account> CustomerAccounts =  accountService.getAccountById(id);
+
         ResponseStatus response = new ResponseStatus();
-        if(!CustomerAccounts.isEmpty()){
+        if(CustomerAccounts.isPresent()){
             response.setCode(HttpStatus.OK.value());
             response.setData(CustomerAccounts);
             return new ResponseEntity<>(response,HttpStatus.OK);

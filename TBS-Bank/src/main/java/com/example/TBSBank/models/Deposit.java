@@ -1,26 +1,23 @@
 package com.example.TBSBank.models;
 
+import com.example.TBSBank.enums.DepoMedium;
 import com.example.TBSBank.enums.DepoStatus;
 import com.example.TBSBank.enums.DepoType;
-import com.example.TBSBank.enums.Medium;
 
 import javax.persistence.*;
 
 @Entity
 public class Deposit {
 
-    @Enumerated(EnumType.STRING)
-    private DepoType type;
-
-    @Enumerated(EnumType.STRING)
-    private Medium medium;
-
-    @Enumerated(EnumType.STRING)
-    private DepoStatus status;
-
     @Id
     @Column(name="DEPOSIT_ID")
     private Long id;
+    @Enumerated(EnumType.STRING)
+    private DepoStatus status;
+    @Enumerated(EnumType.STRING)
+    private DepoMedium medium;
+    @Enumerated(EnumType.STRING)
+    private DepoType type;
     private String transaction_date;
     private Long payeeId;
     private Double amount;
@@ -30,11 +27,11 @@ public class Deposit {
     public Deposit() {
     }
 
-    public Deposit(DepoType type, Medium medium, DepoStatus status, Long id, String transaction_date, Long payeeId, Double amount, String description, Long accountId) {
-        this.type = type;
-        this.medium = medium;
-        this.status = status;
+    public Deposit(Long id, DepoStatus status, DepoMedium medium, DepoType type, String transaction_date, Long payeeId, Double amount, String description, Long accountId) {
         this.id = id;
+        this.status = status;
+        this.medium = medium;
+        this.type = type;
         this.transaction_date = transaction_date;
         this.payeeId = payeeId;
         this.amount = amount;
@@ -42,20 +39,12 @@ public class Deposit {
         this.accountId = accountId;
     }
 
-    public DepoType getType() {
-        return type;
+    public Long getId() {
+        return id;
     }
 
-    public void setType(DepoType type) {
-        this.type = type;
-    }
-
-    public Medium getMedium() {
-        return medium;
-    }
-
-    public void setMedium(Medium medium) {
-        this.medium = medium;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DepoStatus getStatus() {
@@ -66,12 +55,20 @@ public class Deposit {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
+    public DepoMedium getMedium() {
+        return medium;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMedium(DepoMedium medium) {
+        this.medium = medium;
+    }
+
+    public DepoType getType() {
+        return type;
+    }
+
+    public void setType(DepoType type) {
+        this.type = type;
     }
 
     public String getTransaction_date() {
@@ -117,14 +114,15 @@ public class Deposit {
     @Override
     public String toString() {
         return "Deposit{" +
-                "type=" + type +
-                ", medium=" + medium +
+                "id=" + id +
                 ", status=" + status +
-                ", id=" + id +
+                ", medium=" + medium +
+                ", type=" + type +
                 ", transaction_date='" + transaction_date + '\'' +
                 ", payeeId=" + payeeId +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
+                ", accountId=" + accountId +
                 '}';
     }
 }
