@@ -68,7 +68,7 @@ public class Account {
         this.nickname = nickname;
     }
 
-    public void setId(Long accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
 
     }
