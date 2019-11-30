@@ -22,10 +22,7 @@ import java.util.Optional;
 public class AccountController {
 
     @Autowired
-    AccountService accountService;
-
-    @Autowired
-    CustomerService customerService;
+    private AccountService accountService;
 
     @GetMapping( value = "/accounts")
     public ResponseEntity<?> getAllAccounts(Account accounts){
@@ -57,11 +54,7 @@ public class AccountController {
 
     @GetMapping(value = "/customers/{id}/accounts")
     public ResponseEntity<?> getAccountForCustomer(@PathVariable Long id){
-
-
-
         Optional<Account> CustomerAccounts = Optional.ofNullable(accountService.getAccountById(id));
-
         ResponseStatus response = new ResponseStatus();
         if(CustomerAccounts.isPresent()){
             response.setCode(HttpStatus.OK.value());
@@ -74,30 +67,27 @@ public class AccountController {
     }
 
     @PostMapping( value = "/customers/{id}/accounts")
-    public ResponseEntity<?> addAccount(@RequestBody Account account, @PathVariable Long id, @PathVariable String nickName,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customerId)
+    public ResponseEntity<?> addAccount(@RequestBody Account account, @PathVariable Long id)
     {
-       int a = accountService.addAccount(id,account,nickName,rewards,balance,customerId);
-        if(a != 1){
+       Account a = accountService.addAccount(id,account);
+        if(a == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             URI newAcctUri = ServletUriComponentsBuilder
                     .fromCurrentRequestUri()
                     .path("/{id}")
-
-                    .buildAndExpand(a.getAccountId())
-
+                    .buildAndExpand(a.getId())
                     .toUri();
             responseHeaders.setLocation(newAcctUri);
             return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
         }
         else
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-
     }
 
     @PutMapping( value = "/accounts/{id}")
-    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable Long accountid,@PathVariable String nickname,@PathVariable Integer rewards, @PathVariable Double balance,@PathVariable Long customer_id) {
+    public ResponseEntity<?> updateAccount(@Valid @RequestBody Account account, @PathVariable("id") Long accountId) {
       ResponseStatus responseStatus = new ResponseStatus();
-        accountService.updateAccount(account,accountid,nickname,rewards,balance,customer_id);
+        accountService.updateAccount(accountId, account);
       return new ResponseEntity<>(HttpStatus.CREATED,HttpStatus.OK);
     }
 

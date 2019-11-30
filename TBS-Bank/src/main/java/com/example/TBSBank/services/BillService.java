@@ -4,14 +4,12 @@ import com.example.TBSBank.models.Account;
 import com.example.TBSBank.models.Bill;
 import com.example.TBSBank.repository.AccountRepository;
 import com.example.TBSBank.repository.BillRepository;
-import com.example.TBSBank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BillService {
@@ -34,10 +32,10 @@ public class BillService {
     }
 
     public List<Bill> getAllBillsForCustomer(Long customerId) {
-        List<Account> accounts = accountRepository.findAllAccountsByCustomerID(customerId);
+        List<Account> accounts = accountRepository.findAllAccountsByCustomerId(customerId);
         Account a = accounts.get(0);
         String query = "SELECT * FROM bill WHERE account_id=?";
-        return template.query(query, new Object[]{a.getAccountId()}, new BeanPropertyRowMapper<>(Bill.class));
+        return template.query(query, new Object[]{a.getId()}, new BeanPropertyRowMapper<>(Bill.class));
     }
 
     public Bill createBill(Bill bill, Long accountId) {

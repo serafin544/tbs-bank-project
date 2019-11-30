@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface AccountRepository extends CrudRepository<Account, Long>  {
 
-    Account getAccountById(Long accountId);
-    List<Account> findAllAccountsByCustomerID(Long customerId);
-
+    Account getAccountById(Long id);
+    List<Account> findAllAccountsByCustomerId(Long customerId);
 
 }

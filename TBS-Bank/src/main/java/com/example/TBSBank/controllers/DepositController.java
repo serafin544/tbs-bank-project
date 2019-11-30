@@ -61,7 +61,7 @@ public class DepositController {
     @RequestMapping(method=RequestMethod.POST, value="/accounts/{accountId}/deposits")
     public ResponseEntity<?> addDeposit(@RequestBody Deposit deposit, @PathVariable Long accountId){
         ResponseStatus rep = new ResponseStatus();
-        Deposit d = depositService.addDeposit(deposit);
+        Deposit d = depositService.addDeposit(deposit, accountId);
 
         if(d != null){
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -88,7 +88,7 @@ public class DepositController {
     @RequestMapping(method=RequestMethod.PUT, value="/deposits/{depositId}")
     public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposit, @PathVariable Long depositId){
         ResponseStatus rep = new ResponseStatus();
-        Deposit uDeposit = depositService.updateDeposit(deposit);
+        Deposit uDeposit = depositService.updateDeposit(deposit, depositId);
 
         if(uDeposit != null){
             rep.setCode(HttpStatus.ACCEPTED.value());
