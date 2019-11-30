@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TbsBankApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(TbsBankApplication.class, args);
 	}
 
