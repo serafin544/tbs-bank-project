@@ -28,7 +28,7 @@ public class CustomerService {
     Optional<Customer> customer = Optional.empty();
     Optional<Account> account = accountRepository.findById(accountId);
     if(account.isPresent()){
-      String query = "SELECT * FROM CUSTOMER WHERE ID=?";
+      String query = "SELECT * FROM customer WHERE ID=?";
       //customer = customerRepository.findById(account.get().getAccountId());
       Customer c  = template.queryForObject(query, new Object[]{accountId},
               new BeanPropertyRowMapper<>(Customer.class));
@@ -39,17 +39,12 @@ public class CustomerService {
   }
 
   public Iterable<Customer> getAllCustomers() {
-    List<Customer> customers = template.query("select from id , first_name , last_name , address from customer",
-            (result,rowNum)-> new Customer(result.getLong("id"),
-                    result.getString("first_name"),
-                    result.getString("last_name"),
-                    result.getObject("address")));
-
-    return customers;
+    String query = "SELECT * FROM customer";
+    return template.query(query, new Object[]{}, new BeanPropertyRowMapper<>(Customer.class));
   }
 
   public Optional<Customer> getCustomerById(Long customerId){
-    String query = "SELECT * FROM CUSTOMER WHERE ID=?";
+    String query = "SELECT * FROM customer WHERE ID=?";
     Customer customer = template.queryForObject(query,new Object[]{customerId},
             new BeanPropertyRowMapper<>(Customer.class));
       Optional<Customer> customerOptional = Optional.of(new Customer());
@@ -59,8 +54,18 @@ public class CustomerService {
   }
 
   public Customer createNewCustomer(Customer customer){
-      String query = "INSERT INTO CUSTOMEER VALUES(?,?,?,?)";
-      template.update(query,customer.getId(),customer.getFirstName(),customer.getLastName(),customer.getAddress());
+      String query = "INSERT INTO customer VALUES(?,?,?,?)";
+      template.update(query,customer.getCustomer_id(),customer.getFirstName(),customer.getLastName(),customer.getAddress());
+
+      String  query2 = "INSERT INTO address VALUES(?,?,?,?,?,?)";
+      template.update(query2,customer.getAddress().getId(),
+              customer.getAddress().getStreetNumber(),
+              customer.getAddress().getStreetName(),
+              customer.getAddress().getCity(),
+              customer.getAddress().getState(),
+              customer.getAddress().getZip());
+
+
     return customer;
   }
 
