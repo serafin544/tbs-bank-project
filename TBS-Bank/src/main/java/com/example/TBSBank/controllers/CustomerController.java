@@ -53,27 +53,20 @@ public class CustomerController {
     }
   }
 
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<?> getCustomerById(@PathVariable Long customerId) {
-    customerService.verifyCustomerId(customerId, "Could not find customer");
-    Optional<Customer> customer = customerService.getCustomerById(customerId);
+  @GetMapping("/customers/{id}")
+  public ResponseEntity<?> getCustomerById(@PathVariable Long id) {
+    customerService.verifyCustomerId(id, "Could not find customer");
+    List<Customer> customer = customerService.getCustomerById(id);
     ResponseStatus response = new ResponseStatus();
-    if (!customer.isPresent()) {
-      response.setCode(HttpStatus.NOT_FOUND.value());
-      response.setMessage("error fetching customer");
-      return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    } else {
-      response.setCode(HttpStatus.OK.value());
-      response.setData(customer);
-      return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    response.setCode(HttpStatus.OK.value());
+    response.setData(customer.get(0));
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   @PostMapping("/customers")
   public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
-    Customer newCustomer = customerService.createNewCustomer(customer);
-    ResponseStatus response = new ResponseStatus();
-    return new ResponseEntity<>(response.getCode(), HttpStatus.OK);
+    Customer customer1 = customerService.createNewCustomer(customer);
+    return new ResponseEntity<>(customer1, HttpStatus.OK);
   }
 
   @PutMapping("/customers/{customerId}")
@@ -83,7 +76,7 @@ public class CustomerController {
     ResponseStatus response = new ResponseStatus();
     if (customer1 == null) {
       response.setCode(HttpStatus.NOT_FOUND.value());
-      response.setMessage("Error creating customer: Customer not found");
+      response.setMessage("Error Creating Customer: Customer Not Found");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     } else {
       response.setCode(HttpStatus.CREATED.value());
@@ -97,13 +90,14 @@ public class CustomerController {
   public ResponseEntity<?> deleteCustomer(@PathVariable Long customerId) {
     customerService.deleteCustomer(customerId);
     ResponseStatus response = new ResponseStatus();
-    if (!customerService.getCustomerById(customerId).isPresent()) {
+    if (!customerService.getCustomerById(customerId).contains(customerId)) {
       response.setCode(HttpStatus.NOT_FOUND.value());
-      response.setMessage("This id does not exist in bills");
+      response.setMessage("This Customer Does Not Exist!");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     } else {
       customerService.deleteCustomer(customerId);
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
   }
+
 }

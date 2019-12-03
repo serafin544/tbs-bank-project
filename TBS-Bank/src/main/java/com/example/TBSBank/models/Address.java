@@ -3,6 +3,9 @@ package com.example.TBSBank.models;
 import javax.persistence.*;
 
 @Entity
+@Table(
+  uniqueConstraints={@UniqueConstraint(columnNames={"street_number", "street_name", "city", "state", "zip", "customer_id"})}
+)
 public class Address {
 
   @Id
@@ -19,6 +22,7 @@ public class Address {
   private String city;
   private String state;
   private String zip;
+  private Long customer_id;
 
   public Address(){}
 
@@ -70,15 +74,12 @@ public class Address {
     this.zip = zip;
   }
 
-  @Override
-  public String toString() {
-    return "Address{" +
-      "id=" + id +
-      ", streetNumber='" + streetNumber + '\'' +
-      ", streetName='" + streetName + '\'' +
-      ", city='" + city + '\'' +
-      ", state='" + state + '\'' +
-      ", zip='" + zip + '\'' +
-      '}';
+  public Long getCustomer_id() {
+    return customer_id;
   }
+
+  public void setCustomer_id(Long customer_id) {
+    this.customer_id = customer_id;
+  }
+
 }

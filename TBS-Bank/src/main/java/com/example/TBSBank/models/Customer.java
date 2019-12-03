@@ -8,7 +8,6 @@ public class Customer {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "CUSTOMER_ID")
   private Long id;
 
   @Column(name = "first_name")
@@ -17,13 +16,10 @@ public class Customer {
   private String lastName;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "CUSTOMER_ID")
+  @JoinColumn(name = "customer_id")
   private Set<Address> address;
 
   public Customer() {
-  }
-
-  public Customer(long id, String first_name, String last_name, Object address){
 
   }
 
