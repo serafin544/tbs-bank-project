@@ -9,30 +9,33 @@ public class Customer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "CUSTOMER_ID")
-  private Long id;
+  private Long customer_id;
 
   @Column(name = "first_name")
   private String firstName;
   @Column(name="last_name")
   private String lastName;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "CUSTOMER_ID")
-  private Set<Address> address;
+  private Address address;
 
   public Customer() {
   }
 
-  public Customer(long id, String first_name, String last_name, Object address){
-
+  public Customer(Long customer_id, String firstName, String lastName, Address address) {
+    this.customer_id = customer_id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
   }
 
-  public Long getId() {
-    return id;
+  public Long getCustomer_id() {
+    return customer_id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setCustomer_id(Long customer_id) {
+    this.customer_id = customer_id;
   }
 
   public String getFirstName() {
@@ -51,21 +54,21 @@ public class Customer {
     this.lastName = lastName;
   }
 
-  public Set<Address> getAddress() {
+  public Address getAddress() {
     return address;
   }
 
-  public void setAddress(Set<Address> address) {
+  public void setAddress(Address address) {
     this.address = address;
   }
 
   @Override
   public String toString() {
     return "Customer{" +
-      "id=" + id +
-      ", firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
-      ", address=" + address +
-      '}';
+            "customer_id=" + customer_id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", address=" + address +
+            '}';
   }
 }

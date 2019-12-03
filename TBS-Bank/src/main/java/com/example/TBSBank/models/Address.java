@@ -10,6 +10,7 @@ public class Address {
   @Column(name = "ADDRESS_ID")
   private Long id;
 
+
   @Column(name = "STREET_NUMBER")
   private String streetNumber;
 
