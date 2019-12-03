@@ -27,12 +27,13 @@ public class WithdrawController {
     public ResponseEntity<?> getAllWithdrawsForAcc(@PathVariable Long accountId, @RequestBody Withdraw withdraw) {
         ResponseStatus response = new ResponseStatus();
         List<Withdraw> withdraws = withdrawService.getAllWithdrawsForAccount(accountId);
-        if(withdraws == null) {
+        if(withdraws.size() == 0) {
             response.setCode(HttpStatus.NOT_FOUND.value());
-            response.setMessage("error fetching bills");
+            response.setMessage("error fetching withdraw");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }else{
             response.setCode(HttpStatus.OK.value());
+            response.setMessage("Success");
             response.setData(withdraws);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
@@ -48,6 +49,7 @@ public class WithdrawController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }else{
                 response.setCode(HttpStatus.OK.value());
+                response.setMessage("Success");
                 response.setData(w);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
@@ -64,6 +66,7 @@ public class WithdrawController {
             }else{
                 response.setCode(HttpStatus.CREATED.value());
                 response.setMessage("Created withdraw and added it to the account");
+                response.setMessage("Created");
                 response.setData(w);
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
@@ -75,7 +78,8 @@ public class WithdrawController {
             Withdraw w = withdrawService.updateWithdraw(id, withdraw);
             if(w == null) {
                 response.setCode(HttpStatus.NOT_FOUND.value());
-                response.setMessage("Bill ID does not exist");
+                response.setMessage("withdraw ID does not exist");
+                response.setData(w);
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }else{
                 withdrawService.updateWithdraw(id, withdraw);
@@ -94,6 +98,7 @@ public class WithdrawController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }else{
                 withdrawService.deleteWithdrawId(id);
+                response.setMessage("Deleted");
                 return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
             }
         }

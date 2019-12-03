@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Withdraw {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id;
     @Enumerated(EnumType.STRING)
@@ -47,24 +47,24 @@ public class Withdraw {
         this.id = id;
     }
 
-    public WithStatus getStatus() {
-        return status;
+    public String getStatus() {
+        return status.toString();
     }
 
     public void setStatus(WithStatus status) {
         this.status = status;
     }
 
-    public WithMedium getMedium() {
-        return medium;
+    public String getMedium() {
+        return medium.toString();
     }
 
     public void setMedium(WithMedium medium) {
         this.medium = medium;
     }
 
-    public WithType getType() {
-        return type;
+    public String getType() {
+        return type.toString();
     }
 
     public void setType(WithType type) {
