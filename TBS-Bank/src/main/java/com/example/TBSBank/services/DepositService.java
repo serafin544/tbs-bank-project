@@ -29,7 +29,7 @@ public class DepositService {
         if (acc.isPresent()){
             //    listOfDeposits = depository.findAllByPayeeId(accountId);
 
-              String query = "SELECT * FROM DEPOSIT WHERE accountId=?";
+              String query = "SELECT * FROM deposit WHERE accountId=?";
               List<Deposit> d = template.query(query, new Object[]{accountId}, new BeanPropertyRowMapper<>(Deposit.class));
 
 
@@ -41,7 +41,7 @@ public class DepositService {
     }
 
     public Optional<Deposit> getDepositById(Long depositId) {
-        String query = "SELECT * FROM DEPOSITS WHERE ID=?" ;
+        String query = "SELECT * FROM deposit WHERE DEPOSIT_ID=?" ;
         Deposit deposit = template.queryForObject(query,new Object[]{depositId},
                 new BeanPropertyRowMapper<>(Deposit.class));
         // depository.findById(depositId);
@@ -56,7 +56,7 @@ public class DepositService {
               //  String query = "INSERT INTO DEPOSIT ";
             // int update - template.update(query,deposit);
              if(accountRepository.findById(accountId).isPresent()){
-                 String query = "INSERT INTO DEPOSIT VALUES(?,?,?,?,?,?,?,?,?)";
+                 String query = "INSERT INTO deposit VALUES(?,?,?,?,?,?,?,?,?)";
                  template.update(query,deposit.getId(),deposit.getStatus(),deposit.getMedium(),deposit.getType(),
                          deposit.getTransaction_date(),deposit.getPayeeId(),deposit.getAmount(),
                          deposit.getDescription(),deposit.getAccountId());
@@ -68,19 +68,18 @@ public class DepositService {
 
        }
 
-    public Deposit updateDeposit(Deposit deposit, Long accountId) {
-        if(accountRepository.findById(accountId).isPresent()){
-            String query = "UPDATE DEPOSIT " +
-                    "SET id ='"  + deposit.getId() + "'," +
-                    "status ='" + deposit.getStatus() + "'," +
+    public Deposit updateDeposit(Deposit deposit, Long depositId) {
+        if(accountRepository.findById(depositId).isPresent()){
+            String query = "UPDATE deposit " +
+                    "SET status ='" + deposit.getStatus() + "'," +
                     "medium ='" + deposit.getMedium() + "'," +
                     "type ='" + deposit.getType() + "'," +
                     "transaction_date ='" + deposit.getTransaction_date() + "'," +
                     "payeeId ='" + deposit.getPayeeId() + "'," +
                     "amount ='" + deposit.getAmount() + "'," +
-                    "description ='" + deposit.getDescription() + "'," +
-                    " WHERE id = ?";
-            template.update(query, accountId);
+                    "description ='" + deposit.getDescription() + "'" +
+                    " WHERE DEPOSIT_ID= ?'";
+            template.update(query, depositId);
             return deposit;
         }
         return null;
@@ -89,7 +88,7 @@ public class DepositService {
     public void deleteDeposit(Long depositId) {
 
 
-        String sql = "DELETE FROM DEPOSIT WHERE ID=?";
+        String sql = "DELETE FROM deposit WHERE deposit_id=?";
         template.update(sql,depositId);
 
         /*depository.deleteById(depositId);*/

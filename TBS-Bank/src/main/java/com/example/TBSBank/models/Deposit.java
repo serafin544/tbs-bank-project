@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Deposit {
 
     @Id
+    @GeneratedValue
     @Column(name="DEPOSIT_ID")
     private Long id;
     @Enumerated(EnumType.STRING)
