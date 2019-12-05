@@ -47,7 +47,7 @@ public class CustomerService {
     return customer;
   }
 
-  public Iterable<Customer> getAllCustomers() {
+  public List<Customer> getAllCustomers() {
     String query = "SELECT customer_id FROM customer";
     List<Long> customerIds = template.queryForList(query, Long.class);
     List<Customer> customers = new ArrayList<>();
