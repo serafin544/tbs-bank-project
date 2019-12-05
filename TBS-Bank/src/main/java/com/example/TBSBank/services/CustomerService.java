@@ -9,13 +9,12 @@ import com.example.TBSBank.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CustomerService {
@@ -34,7 +33,7 @@ public class CustomerService {
   Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
 
-  public Optional<Customer> getCustomerByAccount(Long accountId){
+    public Optional<Customer> getCustomerByAccount(Long accountId){
     Optional<Customer> customer = Optional.empty();
     Optional<Account> account = accountRepository.findById(accountId);
     if(account.isPresent()){
@@ -53,9 +52,9 @@ public class CustomerService {
     List<Long> customerIds = template.queryForList(query, Long.class);
     List<Customer> customers = new ArrayList<>();
     customerIds.forEach(id -> {
-      Customer customer = this.getCustomerById(id);
-      customer.setId(id);
-      customers.add(customer);
+        Customer customer = this.getCustomerById(id);
+        customer.setId(id);
+        customers.add(customer);
     });
     return customers;
   }
@@ -66,35 +65,35 @@ public class CustomerService {
     Customer customer = template.queryForObject(query,new Object[]{customerId},
             new BeanPropertyRowMapper<>(Customer.class));
     //customerRepository.findById(customerId);
-    Long addressId = template.queryForObject("SELECT ADDRESS_ID FROM CUSTOMER WHERE ID = ?", new Object[]{customerId}, Long.class);
-    Address address = template.queryForObject("SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?", new Object[]{addressId}, new BeanPropertyRowMapper<>(Address.class));
-    address.setId(addressId);
-    customer.setAddress(address);
-    logger.info(customer.getAddress().toString());
-    logger.info(address.toString());
-    return customer;
-  }
+      Long addressId = template.queryForObject("SELECT ADDRESS_ID FROM CUSTOMER WHERE ID = ?", new Object[]{customerId}, Long.class);
+      Address address = template.queryForObject("SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?", new Object[]{addressId}, new BeanPropertyRowMapper<>(Address.class));
+      address.setId(addressId);
+      customer.setAddress(address);
+      logger.info(customer.getAddress().toString());
+      logger.info(address.toString());
+      return customer;
+    }
 
   public Customer createNewCustomer(Customer customer){
-    template.update("INSERT INTO CUSTOMER (first_name, last_name) VALUES(?,?)", customer.getFirstName(), customer.getLastName());
-    Long customerId = template.queryForObject("SELECT MAX(id) From Customer", Long.class);
-    customer.setId(customerId);
-    logger.info(customer.getAddress().toString());
-    Address a = customer.getAddress();
-    // add addresses to address table
-    template.update("INSERT INTO ADDRESS (street_number, street_name, city, state, zip) VALUES(?,?,?,?,?)",
-            a.getStreetNumber(), a.getStreetName(),
-            a.getCity(), a.getState(), a.getZip());
-    Long addressId = template.queryForObject(
-            "SELECT address_ID From Address WHERE street_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?",
-            new Object[]{a.getStreetNumber(), a.getStreetName(), a.getCity(),
-                    a.getState(), a.getZip()}, Long.class);
-    template.update("UPDATE CUSTOMER SET address_id = ? WHERE ID = ?", addressId, customerId);
-    a.setId(addressId);
-    logger.info(a.toString());
-    logger.info(customer.toString());
+      template.update("INSERT INTO CUSTOMER (first_name, last_name) VALUES(?,?)", customer.getFirstName(), customer.getLastName());
+      Long customerId = template.queryForObject("SELECT MAX(id) From Customer", Long.class);
+      customer.setId(customerId);
+      logger.info(customer.getAddress().toString());
+      Address a = customer.getAddress();
+      // add addresses to address table
+      template.update("INSERT INTO ADDRESS (street_number, street_name, city, state, zip) VALUES(?,?,?,?,?)",
+              a.getStreetNumber(), a.getStreetName(),
+              a.getCity(), a.getState(), a.getZip());
+      Long addressId = template.queryForObject(
+              "SELECT address_ID From Address WHERE street_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?",
+              new Object[]{a.getStreetNumber(), a.getStreetName(), a.getCity(),
+                      a.getState(), a.getZip()}, Long.class);
+      template.update("UPDATE CUSTOMER SET address_id = ? WHERE ID = ?", addressId, customerId);
+      a.setId(addressId);
+      logger.info(a.toString());
+      logger.info(customer.toString());
 
-    customer.setAddress(a);
+      customer.setAddress(a);
      /* customer.getAddress().forEach(address -> {
           template.update("INSERT INTO ADDRESS (street_number, street_name, city, state, zip, customer_id) VALUES(?,?,?,?,?, ?)", address.getStreetNumber(), address.getStreetName(),
                   address.getCity(), address.getState(), address.getZip(), customer.getId());
@@ -102,6 +101,8 @@ public class CustomerService {
       // searches for generated customer
       // template.queryForObject("SELECT * from customer where id = ?", new Object[]{customer.getId()}, new BeanPropertyRowMapper<>(Customer.class));
       List<Address> addresses = template.query("SELECT * FROM address where customer_id = ?", new Object[]{customer.getId()}, new BeanPropertyRowMapper<>(Address.class));
+
+
       addresses.forEach(address -> {
           // get ID for this address
           Long addressId = template.queryForObject(
@@ -112,7 +113,7 @@ public class CustomerService {
       });
       // put addresses into customer1
       customer.setAddress(Set.copyOf(addresses));*/
-    return customer;
+      return customer;
   }
 
   public Customer updateCustomer(Long customerId, Customer customer){
@@ -137,14 +138,14 @@ public class CustomerService {
 
   public boolean verifyCustomerId(Long customerId)  {
 
-    List<Customer> customers = template.query("SELECT * FROM CUSTOMER WHERE ID = ?", new Object[]{customerId}, new BeanPropertyRowMapper<>(Customer.class));
+        List<Customer> customers = template.query("SELECT * FROM CUSTOMER WHERE ID = ?", new Object[]{customerId}, new BeanPropertyRowMapper<>(Customer.class));
 
-    if(!customers.isEmpty() ) {
-      Customer customer = getCustomerById(customerId);
-      return true;
-    }else{
-      return false;
-    }
+        if(!customers.isEmpty() ) {
+            Customer customer = getCustomerById(customerId);
+            return true;
+        }else{
+            return false;
+        }
   }
 }
 
@@ -152,11 +153,13 @@ public class CustomerService {
 /*template.update("INSERT INTO customer (first_name, last_name) VALUES(?,?)", customer.getFirstName(), customer.getLastName());
       Long customerId = template.queryForObject("SELECT MAX(id) From Customer", Long.class);
       customer.setId(customerId);
+
       // add addresses to address table
       customer.getAddress().forEach(address1 -> {
     template.update("INSERT INTO ADDRESS(street_number, street_name, city, state, zip, customer_id) VALUES(?,?,?,?,?,?)",new Object[]{
             address.getStreetNumber(), address.getStreetName(), address.getCity(), address.getState(), address.getZip(), address.getCustomer_id(), Address.class});
   });
+
     template.queryForObject("SELECT * FROM CUSTOMER WHERE id = ?", new Object[]{customer.getId()}, new BeanPropertyRowMapper<>(Customer.class));
     List<Address> addresses = template.query("SELECT * FROM ADDRESS WHERE id = ?", new Object[]{customer.getId()}, new BeanPropertyRowMapper<>(Address.class));
     addresses.forEach(address1 -> {
@@ -164,9 +167,12 @@ public class CustomerService {
       Long addressId = template.queryForObject(
               "SELECT address_Id From Address Where street_name = ? AND street_number = ? AND city = ? AND state = ? AND zip = ? AND customer_id = ?",
               new Object[]{address.getStreetName(), address.getStreetNumber(), address.getCity(), address.getState(), address.getZip(), address.getCustomer_id()}, Long.class);
+
       address.setId(addressId);
     });
+
     customer.setAddress(Set.copyOf(addresses));
+
      String query = "INSERT INTO customer VALUES (?,?,?,?)";
      template.update(query,customer.getId(),customer.getFirstName(),customer.getLastName(),customer.getAddress());
       template.update("INSERT INTO ADDRESS(street_number, street_name, city, state, zip, customer_id) VALUES(?,?,?,?,?,?) WHERE customer_id=?" ,new Object[]{
