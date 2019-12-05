@@ -9,7 +9,7 @@ public class Customer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "CUSTOMER_ID")
-  private Long customer_id;
+  private Long id;
 
   @Column(name = "first_name")
   private String firstName;
@@ -17,25 +17,34 @@ public class Customer {
   private String lastName;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "CUSTOMER_ID")
+  @JoinColumn(name = "address_id")
   private Address address;
 
   public Customer() {
   }
 
-  public Customer(Long customer_id, String firstName, String lastName, Address address) {
-    this.customer_id = customer_id;
+  public Customer(String firstName, String lastName, Address address) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.address = address;
   }
 
-  public Long getCustomer_id() {
-    return customer_id;
+  @Override
+  public String toString() {
+    return "Customer{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", address=" + address +
+            '}';
   }
 
-  public void setCustomer_id(Long customer_id) {
-    this.customer_id = customer_id;
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getFirstName() {
@@ -60,15 +69,5 @@ public class Customer {
 
   public void setAddress(Address address) {
     this.address = address;
-  }
-
-  @Override
-  public String toString() {
-    return "Customer{" +
-            "customer_id=" + customer_id +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", address=" + address +
-            '}';
   }
 }
