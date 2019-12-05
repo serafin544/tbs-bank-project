@@ -48,7 +48,7 @@ public class CustomerService {
   }
 
   public Iterable<Customer> getAllCustomers() {
-    String query = "SELECT ID FROM customer";
+    String query = "SELECT customer_id FROM customer";
     List<Long> customerIds = template.queryForList(query, Long.class);
     List<Customer> customers = new ArrayList<>();
     customerIds.forEach(id -> {
@@ -61,11 +61,11 @@ public class CustomerService {
 
   public Customer getCustomerById(Long customerId){
 
-    String query = "SELECT * FROM customer WHERE ID=?";
+    String query = "SELECT * FROM customer WHERE customer_id=?";
     Customer customer = template.queryForObject(query,new Object[]{customerId},
             new BeanPropertyRowMapper<>(Customer.class));
     //customerRepository.findById(customerId);
-      Long addressId = template.queryForObject("SELECT ADDRESS_ID FROM CUSTOMER WHERE ID = ?", new Object[]{customerId}, Long.class);
+      Long addressId = template.queryForObject("SELECT ADDRESS_ID FROM CUSTOMER WHERE customer_id = ?", new Object[]{customerId}, Long.class);
       Address address = template.queryForObject("SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?", new Object[]{addressId}, new BeanPropertyRowMapper<>(Address.class));
       address.setId(addressId);
       customer.setAddress(address);
@@ -76,7 +76,7 @@ public class CustomerService {
 
   public Customer createNewCustomer(Customer customer){
       template.update("INSERT INTO CUSTOMER (first_name, last_name) VALUES(?,?)", customer.getFirstName(), customer.getLastName());
-      Long customerId = template.queryForObject("SELECT MAX(id) From Customer", Long.class);
+      Long customerId = template.queryForObject("SELECT MAX(customer_id) From Customer", Long.class);
       customer.setId(customerId);
       logger.info(customer.getAddress().toString());
       Address a = customer.getAddress();
@@ -88,7 +88,7 @@ public class CustomerService {
               "SELECT address_ID From Address WHERE street_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?",
               new Object[]{a.getStreetNumber(), a.getStreetName(), a.getCity(),
                       a.getState(), a.getZip()}, Long.class);
-      template.update("UPDATE CUSTOMER SET address_id = ? WHERE ID = ?", addressId, customerId);
+      template.update("UPDATE CUSTOMER SET address_id = ? WHERE customer_id = ?", addressId, customerId);
       a.setId(addressId);
       logger.info(a.toString());
       logger.info(customer.toString());
