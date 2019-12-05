@@ -69,6 +69,7 @@ public class CustomerService {
       Address address = template.queryForObject("SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?", new Object[]{addressId}, new BeanPropertyRowMapper<>(Address.class));
       address.setId(addressId);
       customer.setAddress(address);
+      customer.setId(customerId);
       logger.info(customer.getAddress().toString());
       logger.info(address.toString());
       return customer;
