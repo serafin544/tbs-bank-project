@@ -55,10 +55,9 @@ public class CustomerController {
 
   @GetMapping("/customers/{customerId}")
   public ResponseEntity<?> getCustomerById(@PathVariable Long customerId) {
-    customerService.verifyCustomerId(customerId, "Could not find customer");
-    Optional<Customer> customer = customerService.getCustomerById(customerId);
+    Customer customer = customerService.getCustomerById(customerId);
     ResponseStatus response = new ResponseStatus();
-    if (!customer.isPresent()) {
+    if (customer == null) {
       response.setCode(HttpStatus.NOT_FOUND.value());
       response.setMessage("error fetching customer");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -78,17 +77,17 @@ public class CustomerController {
 
   @PutMapping("/customers/{customerId}")
   public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable Long customerId) {
-    customerService.verifyCustomerId(customerId, "Customer Account Not Found");
-    Customer customer1 = customerService.updateCustomer(customerId, customer);
+
+    Customer c = customerService.updateCustomer(customerId, customer);
     ResponseStatus response = new ResponseStatus();
-    if (customer1 == null) {
+    if (customerService.verifyCustomerId(customerId)) {
       response.setCode(HttpStatus.NOT_FOUND.value());
       response.setMessage("Error creating customer: Customer not found");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     } else {
       response.setCode(HttpStatus.CREATED.value());
       response.setMessage("Successfully Updated Customer");
-      response.setData(customer1);
+      response.setData(c);
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
   }
@@ -97,7 +96,7 @@ public class CustomerController {
   public ResponseEntity<?> deleteCustomer(@PathVariable Long customerId) {
     customerService.deleteCustomer(customerId);
     ResponseStatus response = new ResponseStatus();
-    if (!customerService.getCustomerById(customerId).isPresent()) {
+    if (customerService.getCustomerById(customerId) == null) {
       response.setCode(HttpStatus.NOT_FOUND.value());
       response.setMessage("This id does not exist in bills");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
